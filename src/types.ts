@@ -37,3 +37,18 @@ export type ProductType = {
     images: string[];
     thumbnail: string;
 };
+
+export type FetchProductResult =
+    | { success: true; product: ProductType }
+    | { success: false; msg: string };
+
+export type CartType = {
+    cartItems: CartItemType[];
+};
+
+export type CartItemType = {
+    id: number;
+    title: string;
+    price: number;
+    thumbnail: string;
+};
