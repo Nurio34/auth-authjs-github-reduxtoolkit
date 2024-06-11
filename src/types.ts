@@ -36,6 +36,7 @@ export type ProductType = {
     };
     images: string[];
     thumbnail: string;
+    amount?: number;
 };
 
 export type FetchProductResult =
@@ -51,4 +52,5 @@ export type CartItemType = {
     title: string;
     price: number;
     thumbnail: string;
+    amount: number;
 };

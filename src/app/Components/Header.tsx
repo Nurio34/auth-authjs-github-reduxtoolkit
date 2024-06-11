@@ -2,6 +2,7 @@ import React from "react";
 import { SigninBtn } from "./SigninBtn";
 import Link from "next/link";
 import CartBtn from "./CartBtn";
+import AuthBtns from "./AuthBtns";
 
 function Header() {
     return (
@@ -19,7 +20,7 @@ function Header() {
             </Link>
             <div className=" flex gap-[2vw]">
                 <CartBtn />
-                <SigninBtn />
+                <AuthBtns />
             </div>
         </header>
     );

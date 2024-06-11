@@ -2,16 +2,19 @@ import { fetchProduct, fetchProducts } from "@/actions";
 import { ProductType } from "@/types";
 import Image from "next/image";
 import AddToCartBtn from "../Components/AddToCartBtn";
-
-// export async function generateStaticParams() {
-//     const products = await fetchProducts();
-
-//     return products.data.map((product: ProductType) => ({
-//         id: product.id.toString(),
-//     }));
-// }
+import GoToProductsBtn from "../Components/GoToProductsBtn";
+import DecreaseBtn from "../Components/DecreaseBtn";
+import IncreaseBtn from "../Components/IncreaseBtn";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 async function SingleProduct({ params }: { params: { id: number } }) {
+    const getSessions = await auth();
+
+    if (!getSessions) {
+        return redirect("/");
+    }
+
     const { id } = params;
     const result = await fetchProduct(id);
 
@@ -22,9 +25,7 @@ async function SingleProduct({ params }: { params: { id: number } }) {
         return (
             <div className=" grid md:grid-cols-2 border-[1px] border-accent shadow-md shadow-accent rounded-md my-[2vh] mx-[4vw]">
                 <div className="grid grid-rows-[1fr,100px] py-[2vh] px-[4vw] ">
-                    <figure
-                        className={` relative aspect-square border-[1px] border-accent shadow-md shadow-accent rounded-md`}
-                    >
+                    <figure className={` relative aspect-square  `}>
                         <Image
                             src={thumbnail}
                             alt={title}
@@ -57,18 +58,23 @@ async function SingleProduct({ params }: { params: { id: number } }) {
                         })}
                     </div>
                 </div>
-                <div className=" grid place-content-start gap-[2vh] my-[2vh] mx-[4vw] border-accent shadow-md shadow-accent rounded">
+                <div className=" grid justify-items-startgap-[2vh] my-[2vh] mx-[4vw] gap-[1vh] md:gap-0">
                     <p
-                        className=" font-semibold text-xl "
+                        className=" font-semibold text-xl text-center"
                         style={{ fontVariant: "small-caps" }}
                     >
                         {title}
                     </p>
-                    <p>{description} </p>
-                    <p>
+                    <p className=" text-center">{description} </p>
+                    <p className=" font-semibold  italic">
                         {price} <span className=" text-sm">$</span>{" "}
                     </p>
-                    <AddToCartBtn product={product} />
+                    <div className="flex justify-between items-center gap-[2vw]">
+                        <DecreaseBtn product={product} />
+                        <AddToCartBtn product={product} />
+                        <IncreaseBtn product={product} />
+                    </div>
+                    <GoToProductsBtn />
                 </div>
             </div>
         );

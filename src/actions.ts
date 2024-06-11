@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { FetchProductResult } from "./types";
+import { FetchProductResult, ProductType } from "./types";
 
 export const fetchProducts = async () => {
     const productsAPI_Url = "https://dummyjson.com/products";
@@ -13,7 +13,13 @@ export const fetchProducts = async () => {
         });
         const data = await result.json();
 
-        return { success: true, data: data?.products };
+        return {
+            success: true,
+            data: data?.products.map((product: ProductType) => ({
+                ...product,
+                amount: 0,
+            })),
+        };
     } catch (error) {
         return {
             success: false,
@@ -24,7 +30,6 @@ export const fetchProducts = async () => {
 
 export const goToDetail = (formData: any) => {
     const id = formData.get("id");
-    console.log({ id });
     redirect(`/${id}`);
 };
 
@@ -44,4 +49,8 @@ export const fetchProduct = async (id: number): Promise<FetchProductResult> => {
             msg: "Unexpected error while 'Fetching Product'",
         };
     }
+};
+
+export const goToProducts = () => {
+    redirect("/");
 };

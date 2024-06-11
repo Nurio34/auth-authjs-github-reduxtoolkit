@@ -4,14 +4,14 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { add, remove } from "@/store/slices/cart";
 import { ProductType } from "@/types";
 
-function AddToCartBtn({ product }: { product: ProductType }) {
+function AddToCartBtn({ product }: { product: any }) {
     const dispatch = useAppDispatch();
     const cart = useAppSelector((s) => s.cart);
-    console.log(cart);
+
     const { id, thumbnail, title, price } = product;
 
     const handleAddToCart = () => {
-        dispatch(add({ id, thumbnail, title, price }));
+        dispatch(add({ id, thumbnail, title, price, amount: 1 }));
     };
 
     const handleRemoveFromCart = () => {
@@ -25,7 +25,7 @@ function AddToCartBtn({ product }: { product: ProductType }) {
 
     return (
         <button
-            className="btn btn-secondary"
+            className="btn btn-secondary grow"
             onClick={() => {
                 isProductAlreadyInCart
                     ? handleRemoveFromCart()
